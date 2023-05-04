@@ -5,7 +5,7 @@ $(function(){
     $.get(productListApiUrl,function(response){
         productPrices = {}
         if(response ){
-            var options = '<option-value="">--Select--</option>';
+            var options = '<option value="">--Select--</option>';
             $.each(response,function(index,product){
                 options+='<option value="'+product.product_id+'">'+product.name+'</option>';
                 productPrices[product.product_id] = product.price_per_unit;
