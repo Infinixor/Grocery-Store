@@ -69,11 +69,11 @@ productModal.on('show.bs.modal',function(){
         if(response){
             var options = '<option value="">---Select---</option>';
             $.each(response,function(index,uom){
-                options+='<option valiue="'+uom.uom_id+'">'+uom.uom_id+'</option>';
+                options+='<option value="'+uom.uom_id+'">'+uom.uom_id+'</option>';
             });
-            $("#uoms").empty().html(options)
+            $("#uoms").empty().html(options);
         }
-    })
+    });
 
 });
 
