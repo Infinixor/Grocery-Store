@@ -57,6 +57,25 @@ $(document).on("click","delete-product",function(){
         callApi("POST",productDeleteApiUrl,data);
     }
 });
+productModal.on('hide.bs.modal',function(){
+    $("#id").val(0);
+    $("#name , #unit , #price").val('');
+    productModal.find('.modal-title').text('Add New Product');
+});
+
+productModal.on('show.bs.modal',function(){
+    //Json data by api call 
+    $.get(uomListApiUrl,function(response){
+        if(response){
+            var options = '<option value="">---Select---</option>';
+            $.each(response,function(index,uom){
+                options+='<option valiue="'+uom.uom_id+'">'+uom.uom_id+'</option>';
+            });
+            $("#uoms").empty().html(options)
+        }
+    })
+
+});
 
 
 
