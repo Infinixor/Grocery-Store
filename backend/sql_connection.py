@@ -2,6 +2,7 @@ import mysql.connector
 __cnx = None
 
 def get_sql_connection():
+    print("Establishing SQL Connection")
     global __cnx
     if __cnx is None:
         __cnx = mysql.connector.connect(user='root', password='nimda',
