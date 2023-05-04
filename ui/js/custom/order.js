@@ -51,7 +51,7 @@ $("#saveOrder").on("click",function(){
 
     };
     var orderDetails = [];
-    for (var i=0;i<formData.length;i++){
+    for (var i=0;i<formData.length;++i){
         var element =formData[i];
         var lastElement = null;
         switch(element.name){
