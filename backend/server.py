@@ -25,8 +25,7 @@ def get_uom():
     return response
 
 
-"""
-@app.route('/deleteProduct',method=['POST'])
+@app.route('/deleteProduct',methods=['POST'])
 def delete_product():
     return_id = products_dao.delete_product(connection,request.form['product_id'])
     response = jsonify({
@@ -34,7 +33,7 @@ def delete_product():
     })
     response.headers.add('Access-Control-Allow-Origin','*')
     return response
-"""
+
 if __name__ == "__main__":
     print("Starting Python Flask Server For Grocery Store Management System")
     app.run(port=5000)

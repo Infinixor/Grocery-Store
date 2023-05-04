@@ -1,0 +1,63 @@
+var productModal = $("#productModal");
+$(function(){
+    //Json data by api call
+    $.get(productListApiUrl,function(response){
+        if (response){
+            var table="";
+            $.each(response,function(index,product){
+                table+='<tr data-id="'+product.product_id+'" data-name="'+product.name+'" data-unit="'+product.uom_id+'"data-price="'+product.price_per_unit + '">'+
+                        '<td>'+product.name +'</td>'+
+                        '<td>'+product.uom_name+'</td>'+
+                        '<td>'+product.price_per_unit+'</td>'
+                        '<td><span class="btn btn-xs btn-danger delete-product">Delete</span></td></tr>';
+
+            });
+            $("table").find('tbody').empty().html(table);
+        }
+    });
+});
+
+//Save Product
+$("#saveProduct").on("click",function(){
+    //If we found id value in form then update product detail
+    var data = $("#productForm").serializeArray();
+    var requestPayload = {
+        product_name:null,
+        uom_id:null,
+        price_per_unit:null
+    };
+    for(var i=0;i<data.length;++i){
+        var element =data[i];
+        switch(element.name){
+            case 'name':
+                requestPayload.product_name = element.value;
+                break;
+            case 'uoms':
+                requestPayload.uom_id=element.value;
+                break;
+            case 'price':
+                requestPayload.price_per_unit = element.value;
+                break;
+
+        }
+    }
+    callApi("POST",productSaveApiUrl,{
+        'data':JSON.stringify(requestPayload)
+    });
+});
+
+
+$(document).on("click","delete-product",function(){
+    var tr = $(this).closest('tr');
+    var data ={
+        product_id : tr.data('id')
+    };
+    var isDelete = confirm("Are you sure you want to Delete"+tr.data('name')+"item?");
+    if(isDelete){
+        callApi("POST",productDeleteApiUrl,data);
+    }
+});
+
+
+
+
