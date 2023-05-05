@@ -8,8 +8,8 @@ $(function(){
                 table+='<tr data-id="'+product.product_id+'" data-name="'+product.name+'" data-unit="'+product.uom_id+'"data-price="'+product.price_per_unit + '">'+
                         '<td>'+product.name +'</td>'+
                         '<td>'+product.uom_name+'</td>'+
-                        '<td>'+product.price_per_unit+'</td>'
-                        '<td><span class="btn btn-xs btn-danger delete-product">Delete</span></td></tr>';
+                        '<td>'+product.price_per_unit+'</td>'+
+                        '<td><span class="btn btn-xs btn-danger delete-product"> Delete </span>    <span class="btn btn-xs btn-success edit-product"> Edit </span></td></tr>';
 
             });
             $("table").find('tbody').empty().html(table);
@@ -46,13 +46,16 @@ $("#saveProduct").on("click",function(){
     });
 });
 
+$(document).on("click",".edit-product",function(){
+    alert('Hello');
+});
 
-$(document).on("click","delete-product",function(){
+$(document).on("click",".delete-product",function(){
     var tr = $(this).closest('tr');
     var data ={
         product_id : tr.data('id')
     };
-    var isDelete = confirm("Are you sure you want to Delete"+tr.data('name')+"item?");
+    var isDelete = confirm("Are you sure to delete "+ tr.data('name') +" ?");;
     if(isDelete){
         callApi("POST",productDeleteApiUrl,data);
     }
@@ -76,6 +79,7 @@ productModal.on('show.bs.modal',function(){
     });
 
 });
+
 
 
 
