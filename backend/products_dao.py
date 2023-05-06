@@ -3,17 +3,11 @@ from sql_connection import get_sql_connection
 
 
 def get_all_products(connection):
-  
-    
     cursor = connection.cursor()
     query = ("select products.product_id, products.name, products.uom_id, products.price_per_unit, uom.uom_name "
             "from products inner join uom on products.uom_id=uom.uom_id")
-        
-
     cursor.execute(query)
-
     response =[]
-
     for (product_id, name, uom_id, price_per_unit,uom_name) in cursor:
         response.append(
             {
@@ -26,11 +20,10 @@ def get_all_products(connection):
             }
         )
         #print(product_id, name, uom_id, price_per_unit,uom_name)
-
     #cursor.close()
     return response
 
-
+#Inserts new Product
 def insert_new_product(connection, product):
     cursor = connection.cursor()
     query = ("INSERT INTO products "
@@ -41,9 +34,21 @@ def insert_new_product(connection, product):
     connection.commit()
     return cursor.lastrowid
 
+#Edit Product 
 def edit_product(connection,product):
     cursor = connection.cursor()
-    query = ()
+    query = ("UPDATE products "
+             "SET name=%s, uom_id=%s, price_per_unit=%s "
+             "WHERE product_id=%s")
+    data = (product['product_name'], product['uom_id'], product['price_per_unit'], product['product_id'])
+
+    cursor.execute(query, data)
+    connection.commit()
+
+    return product['product_id']
+
+
+#delete product
 def delete_product(connection,product_id):
     cursor = connection.cursor()
     query = ("DELETE FROM products where product_id="+str(product_id))
@@ -56,12 +61,20 @@ if __name__=="__main__":
     connection = get_sql_connection()
     print(get_all_products(connection))
     """
+    Test query to Test insertion of new product
     print(insert_new_product(connection,{
         'product_name':'potatoes',
         'uom_id':'1',
         'price_per_unit':'10'
     }))
 
-    """
+
     
     #print(delete_product(connection,12))
+    print(edit_product(connection, {
+        'product_id': 1,
+        'product_name': 'Rice',
+        'uom_id': '1',
+        'price_per_unit': '35'
+    }))
+"""
