@@ -10,6 +10,7 @@ def get_uoms(connection):
             'uom_id':uom_id,
             'uom_name':uom_name
         })
+    cursor.close()
     return response
 
 

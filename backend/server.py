@@ -8,7 +8,7 @@ from sql_connection import get_sql_connection
 
 app = Flask(__name__)
 connection = get_sql_connection()
-@app.route('/hello', methods=['GET'])
+@app.route('/', methods=['GET'])
 def hello():
     return "Hi How are you "
 
@@ -44,6 +44,21 @@ def insert_product():
     response = jsonify({
         'product_id': product_id
     })
+    response.headers.add('Access-Control-Allow-Origin','*')
+    return response
+
+@app.route('/getCurrentProduct/<string:id>',methods=['GET'])
+def get_curr_product(id):
+    response = products_dao.get_curr_product(connection,id)
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin','*')
+    return response
+
+@app.route('/updateProduct/<string:id>',methods=['POST'])
+def edit_product(id):    
+    request_payload = json.loads(request.form['data'])
+    response = products_dao.edit_product(connection,request_payload)
+    response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin','*')
     return response
 

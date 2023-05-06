@@ -104,6 +104,44 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade-scale" id="editProductModal" role="dialog" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Product</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editProductForm">
+                                <input type="hidden" name="id" id="editId" value="">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input class="form-control" name="name" id="editName" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Unit</label>
+                                            <select name="uoms" id="editUoms" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Price Per Unit</label>
+                                            <input class="form-control" name="price" id="editPrice" type="text" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="updateProduct">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <script src="js/packages/jquery.min.js"></script>
         <script src="js/custom/common.js"></script>

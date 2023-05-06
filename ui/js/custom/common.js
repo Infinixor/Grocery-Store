@@ -5,7 +5,8 @@ var productSaveApiUrl = 'http://127.0.0.1:5000/insertProduct';
 var productDeleteApiUrl = 'http://127.0.0.1:5000/deleteProduct';
 var orderListApiUrl = 'http://127.0.0.1:5000/getAllOrders';
 var orderSaveApiUrl = 'http://127.0.0.1:5000/insertOrder';
-
+var getCurrentProductApiurl = 'http://127.0.0.1:5000/getCurrentProduct';
+var updateProductApiUrl = 'http://127.0.0.1:5000/updateProduct';
 // For Product drop in order
 
 var productsApiUrl = 'http://127.0.0.1:5000/products';
