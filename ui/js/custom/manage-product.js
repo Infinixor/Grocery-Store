@@ -1,5 +1,6 @@
 var productModal = $("#productModal");
 var editProductModal = $("#editProductModal")
+// Called to load all the products from Db to current page 
 $(function(){
     //Json data by api call
     $.get(productListApiUrl,function(response){
@@ -18,43 +19,17 @@ $(function(){
     });
 });
 
-//Save Product
-$("#saveProduct").on("click",function(){
-    //If we found id value in form then update product detail
-    var data = $("#productForm").serializeArray();
-    var requestPayload = {
-        product_name:null,
-        uom_id:null,
-        price_per_unit:null
-    };
-    for(var i=0;i<data.length;++i){
-        var element =data[i];
-        switch(element.name){
-            case 'name':
-                requestPayload.product_name = element.value;
-                break;
-            case 'uoms':
-                requestPayload.uom_id=element.value;
-                break;
-            case 'price':
-                requestPayload.price_per_unit = element.value;
-                break;
 
-        }
-    }
-    callApi("POST",productSaveApiUrl,{
-        'data':JSON.stringify(requestPayload)
-    });
-});
-
+//Function called on click of edit button on item level
 function editProduct(productId) {
     // Set the product_id as a data attribute on the modal
     $('#editProductModal').data('product-id', productId);
     
     // Show the modal
     $('#editProductModal').modal('show');
-  }
+  };
 
+//Function which deletes the current product
 $(document).on("click",".delete-product",function(){
     var tr = $(this).closest('tr');
     var data ={
@@ -65,12 +40,14 @@ $(document).on("click",".delete-product",function(){
         callApi("POST",productDeleteApiUrl,data);
     }
 });
+
+//Product Modal hide funtion
 productModal.on('hide.bs.modal',function(){
     $("#id").val(0);
     $("#name , #unit , #price").val('');
     productModal.find('.modal-title').text('Add New Product');
 });
-
+//Product Modal Called on Add New Product button 
 productModal.on('show.bs.modal',function(){
     //Json data by api call 
     $.get(uomListApiUrl,function(response){
@@ -84,18 +61,19 @@ productModal.on('show.bs.modal',function(){
     });
 
 });
-
+ 
 editProductModal.on('hide.bs.modal',function(){
     $("#editId").val('');
     $("#editName , #editUoms , #editPrice").val('');
     editProductModal.find('.modal-title').text('Edit Product');
 });
-
+//EditProduct Modal Called onclick of edit button for current product with product id passed as data attribute
 editProductModal.on('show.bs.modal', function(event) {
     // make ajax call to get UOM list
     var productId = $('#editProductModal').data('product-id');
     var apiUrl = getCurrentProductApiurl + '/' + productId;
-    alert(apiUrl)
+    //api url for fetching product
+    //alert(apiUrl)
     $.get(apiUrl,function(response){
         if (response){
             $('#editId').val(response.product_id);
@@ -118,7 +96,7 @@ editProductModal.on('show.bs.modal', function(event) {
    
   });
 
-//updating the ProductDetails
+//Updating the Current ProductDetails with new details 
 $("#updateProduct").on("click",function(){
     //If we found id value in form then update product detail
     var productId = $('#editProductModal').data('product-id');
@@ -149,6 +127,36 @@ $("#updateProduct").on("click",function(){
         }
     }
     callApi("POST",updateProductApiUrl+'/'+requestPayload.product_id,{
+        'data':JSON.stringify(requestPayload)
+    });
+});
+
+
+//Save Product
+$("#saveProduct").on("click",function(){
+    //If we found id value in form then update product detail
+    var data = $("#productForm").serializeArray();
+    var requestPayload = {
+        product_name:null,
+        uom_id:null,
+        price_per_unit:null
+    };
+    for(var i=0;i<data.length;++i){
+        var element =data[i];
+        switch(element.name){
+            case 'name':
+                requestPayload.product_name = element.value;
+                break;
+            case 'uoms':
+                requestPayload.uom_id=element.value;
+                break;
+            case 'price':
+                requestPayload.price_per_unit = element.value;
+                break;
+
+        }
+    }
+    callApi("POST",productSaveApiUrl,{
         'data':JSON.stringify(requestPayload)
     });
 });
