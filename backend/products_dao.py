@@ -56,6 +56,7 @@ def delete_product(connection,product_id):
     query = ("DELETE FROM products where product_id="+str(product_id))
     cursor.execute(query)
     connection.commit()
+    cursor.close()
     return cursor.lastrowid
 
 def get_curr_product(connection, id):

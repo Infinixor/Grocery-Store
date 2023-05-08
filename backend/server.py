@@ -2,7 +2,7 @@
 import json
 from flask import Flask, request, jsonify
 import products_dao
-import uom_dao
+import uom_dao ,orders_dao
 from products_dao import get_all_products
 from sql_connection import get_sql_connection
 
@@ -62,6 +62,15 @@ def edit_product(id):
     response.headers.add('Access-Control-Allow-Origin','*')
     return response
 
+@app.route('/insertOrder', methods=['POST'])
+def insert_order():
+    request_payload = json.loads(request.form['data'])
+    order_id = orders_dao.insert_order(connection, request_payload)
+    response = jsonify({
+        'order_id': order_id
+    })
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__ == "__main__":
     print("Starting Python Flask Server For Grocery Store Management System")
