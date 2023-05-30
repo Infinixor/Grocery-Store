@@ -5,6 +5,8 @@ In this python project, we will build a grocery store management application. It
 3. Database: mysql
 
 
+![](homepage.jpg)
+
 
 ### Installation Instructions
 
