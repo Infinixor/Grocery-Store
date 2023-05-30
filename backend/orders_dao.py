@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from sql_connection import get_sql_connection
 
@@ -30,10 +29,63 @@ def insert_order(connection, order):
     cursor.close()
     return order_id
 
+
+def get_order_details(connection, order_id):
+    cursor = connection.cursor()
+
+    #query = "SELECT * from order_details where order_id = %s"
+
+    query = "SELECT od.order_id, od.quantity, od.total_price, "\
+            "p.name, p.price_per_unit FROM order_details as od LEFT JOIN products as p on " \
+            "od.product_id = p.product_id where od.order_id = %s"
+
+    data = (order_id,)
+
+    cursor.execute(query, data)
+
+    records = []
+    for (order_id, quantity, total_price, product_name, price_per_unit) in cursor:
+        records.append({
+            'order_id': order_id,
+            'quantity': quantity,
+            'total_price': total_price,
+            'product_name': product_name,
+            'price_per_unit': price_per_unit
+        })
+
+    cursor.close()
+
+    return records
+
+def get_all_orders(connection):
+    cursor = connection.cursor()
+    query = " SELECT o.order_id ,o.customer_name, o.total, o.datetime FROM orders AS o "
+    cursor.execute(query)
+    print(cursor)
+    response= []
+    for (order_id, customer_name, total, datetime) in cursor:
+        response.append(
+            {
+                'order_id':order_id,
+                'customer_name':customer_name,
+                'total':total,
+                'datetime':datetime,
+
+            }
+        )
+    cursor.close()
+    # append order details in each order
+    for record in response:
+        record['order_details'] = get_order_details(connection, record['order_id'])
+
+    return response
+
 if __name__=="__main__":
 
     connection = get_sql_connection()
-    
+    print(get_all_orders(connection))
+    #print(get_order_details(connection,37))
+    """
     print(insert_order(connection,{
         'customer_name' : 'Air ',
         'grand_total':'2000',
@@ -50,3 +102,5 @@ if __name__=="__main__":
             }
         ]
     }))
+    """
+    
