@@ -83,7 +83,7 @@ def get_all_orders(connection):
 if __name__=="__main__":
 
     connection = get_sql_connection()
-    #print(get_all_orders(connection))
+    print(get_all_orders(connection))
     #print(get_order_details(connection,37))
     """
     print(insert_order(connection,{
